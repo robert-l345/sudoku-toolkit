@@ -55,7 +55,11 @@ class Board:
 
         cells = []
         for row in rows:
-            compact = row.replace(" ", "")
+            # A row already at the target width keeps its spaces, since a
+            # space there is an empty-cell marker like '.' or '0'. A row
+            # padded with separator spaces (e.g. "5 3 . . 7 . . . .") gets
+            # them stripped down to the real digits.
+            compact = row if len(row) == SIZE else row.replace(" ", "")
             if len(compact) != SIZE:
                 raise BoardError(
                     f"each row must have {SIZE} cells, got {len(compact)!r}"
