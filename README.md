@@ -41,13 +41,17 @@ a source citation at the top.
 As a library:
 
 ```python
-from sudoku_toolkit import Board
+from sudoku_toolkit import Board, solve
 
 board = Board.from_text(open("puzzle.txt").read())
 print(board.pretty())
 print(board.is_valid())      # no rule violations so far
 print(board.is_complete())   # every cell filled in
 print(board.conflicts())     # list of specific violations, if any
+
+solved = solve(board)        # a solved copy, or None if unsolvable
+if solved is not None:
+    print(solved.pretty())
 ```
 
 From the command line, reading a file:
@@ -70,8 +74,9 @@ the input couldn't be parsed as a board at all.
 
 ## Status
 
-This currently parses and validates boards. It does not yet solve them or
-generate new puzzles - see the roadmap in the issue tracker.
+This parses and validates boards, and can solve them with `solve()`. There's
+no CLI subcommand for solving yet, and it doesn't generate new puzzles - see
+the roadmap in the issue tracker.
 
 ## License
 
