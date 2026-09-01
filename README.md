@@ -69,14 +69,25 @@ $ curl -s https://example.com/puzzle.txt | sudoku-toolkit check -
 
 Omitting the file argument, or passing `-` explicitly, both read stdin.
 
-Exit codes: `0` for a valid board, `1` if rule violations were found, `2` if
-the input couldn't be parsed as a board at all.
+Exit codes for `check`: `0` for a valid board, `1` if rule violations were
+found, `2` if the input couldn't be parsed as a board at all.
+
+To solve a board:
+
+```
+$ sudoku-toolkit solve puzzle.txt
+$ sudoku-toolkit solve --oneline puzzle.txt
+```
+
+Exit codes for `solve`: `0` on success, `1` if the board has rule violations
+or has no solution, `2` if the input couldn't be parsed.
 
 ## Status
 
-This parses and validates boards, and can solve them with `solve()`. There's
-no CLI subcommand for solving yet, and it doesn't generate new puzzles - see
-the roadmap in the issue tracker.
+This parses, validates, and solves boards, both as a library and from the
+CLI. It doesn't generate new puzzles yet, and there's no way to write a
+solved board back out in a form another tool expects - see the roadmap in
+the issue tracker.
 
 ## License
 
