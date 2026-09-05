@@ -52,6 +52,9 @@ print(board.conflicts())     # list of specific violations, if any
 solved = solve(board)        # a solved copy, or None if unsolvable
 if solved is not None:
     print(solved.pretty())
+
+from sudoku_toolkit import generate
+puzzle = generate("hard")    # a fresh puzzle with exactly one solution
 ```
 
 From the command line, reading a file:
@@ -82,12 +85,27 @@ $ sudoku-toolkit solve --oneline puzzle.txt
 Exit codes for `solve`: `0` on success, `1` if the board has rule violations
 or has no solution, `2` if the input couldn't be parsed.
 
+To generate a new puzzle:
+
+```
+$ sudoku-toolkit generate
+$ sudoku-toolkit generate --difficulty hard
+$ sudoku-toolkit generate --difficulty expert --oneline
+```
+
+Difficulty is one of `easy`, `medium`, `hard`, or `expert`, from most to
+fewest starting clues, and defaults to `medium`. Generation removes clues
+from a random solved grid one at a time, checking after each removal that
+the puzzle still has exactly one solution, so every puzzle it produces is
+uniquely solvable.
+
 ## Status
 
-This parses, validates, and solves boards, both as a library and from the
-CLI. It doesn't generate new puzzles yet, and there's no way to write a
-solved board back out in a form another tool expects - see the roadmap in
-the issue tracker.
+This parses, validates, solves, and generates boards, both as a library and
+from the CLI. Solved and generated boards can already be written back out as
+a single line with `--oneline`; what's still missing is a `Board` method to
+do that directly, without going through the CLI's string-munging - see the
+roadmap in the issue tracker.
 
 ## License
 

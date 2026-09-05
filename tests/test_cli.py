@@ -78,5 +78,18 @@ class SolveCommandTests(unittest.TestCase):
         self.assertIn("error:", err)
 
 
+class GenerateCommandTests(unittest.TestCase):
+    def test_generates_a_valid_puzzle(self):
+        code, out, err = _run(["generate", "--difficulty", "easy"])
+        self.assertEqual(code, 0)
+        self.assertEqual(err, "")
+        self.assertIn(".", out)
+
+    def test_generates_oneline_puzzle(self):
+        code, out, err = _run(["generate", "--oneline"])
+        self.assertEqual(code, 0)
+        self.assertEqual(len(out.strip()), 81)
+
+
 if __name__ == "__main__":
     unittest.main()

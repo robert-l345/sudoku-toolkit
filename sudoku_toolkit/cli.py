@@ -6,6 +6,7 @@ import argparse
 import sys
 
 from .board import Board, BoardError
+from .generator import DIFFICULTIES, generate
 from .solver import solve
 
 
@@ -65,6 +66,15 @@ def cmd_solve(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_generate(args: argparse.Namespace) -> int:
+    board = generate(args.difficulty)
+    if args.oneline:
+        print(board.to_text().replace("\n", ""))
+    else:
+        print(board.pretty())
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="sudoku-toolkit",
@@ -98,6 +108,22 @@ def build_parser() -> argparse.ArgumentParser:
         help="print the solution as a single 81-character line instead of a grid",
     )
     solve_parser.set_defaults(func=cmd_solve)
+
+    generate_parser = subparsers.add_parser(
+        "generate", help="generate a new puzzle with a unique solution"
+    )
+    generate_parser.add_argument(
+        "--difficulty",
+        choices=sorted(DIFFICULTIES),
+        default="medium",
+        help="how many clues to leave; fewer is harder (default: medium)",
+    )
+    generate_parser.add_argument(
+        "--oneline",
+        action="store_true",
+        help="print the puzzle as a single 81-character line instead of a grid",
+    )
+    generate_parser.set_defaults(func=cmd_generate)
 
     return parser
 
