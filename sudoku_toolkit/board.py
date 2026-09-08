@@ -73,6 +73,10 @@ class Board:
             "".join(str(v) if v else "." for v in row) for row in self.cells
         )
 
+    def to_line(self) -> str:
+        """Render as a single 81-character line, '.' for empty."""
+        return "".join(str(v) if v else "." for row in self.cells for v in row)
+
     def pretty(self) -> str:
         """Render with box separators, for terminal display."""
         lines = []

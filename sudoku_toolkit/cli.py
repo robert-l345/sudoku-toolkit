@@ -60,7 +60,7 @@ def cmd_solve(args: argparse.Namespace) -> int:
         return 1
 
     if args.oneline:
-        print(solved.to_text().replace("\n", ""))
+        print(solved.to_line())
     else:
         print(solved.pretty())
     return 0
@@ -69,7 +69,7 @@ def cmd_solve(args: argparse.Namespace) -> int:
 def cmd_generate(args: argparse.Namespace) -> int:
     board = generate(args.difficulty)
     if args.oneline:
-        print(board.to_text().replace("\n", ""))
+        print(board.to_line())
     else:
         print(board.pretty())
     return 0

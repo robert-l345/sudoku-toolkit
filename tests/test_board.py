@@ -179,6 +179,15 @@ class RenderingTests(unittest.TestCase):
         self.assertIn("------+-------+------", text)
         self.assertEqual(text.count("------+-------+------"), 2)
 
+    def test_to_line_matches_single_line_form(self):
+        board = Board.from_text(PUZZLE_MULTILINE)
+        self.assertEqual(board.to_line(), PUZZLE_SINGLE_LINE)
+
+    def test_to_line_round_trips_through_from_text(self):
+        board = Board.from_text(PUZZLE_MULTILINE)
+        round_tripped = Board.from_text(board.to_line())
+        self.assertEqual(board.cells, round_tripped.cells)
+
 
 if __name__ == "__main__":
     unittest.main()
