@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import os
+import tempfile
 import unittest
 
 from sudoku_toolkit.board import Board, BoardError
@@ -103,6 +105,22 @@ class FromTextTests(unittest.TestCase):
         rows = ["123456789"] * 8 + ["12345678x"]
         with self.assertRaises(BoardError):
             Board.from_text("\n".join(rows))
+
+
+class FromFileTests(unittest.TestCase):
+    def test_reads_and_parses_a_board(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            path = os.path.join(tmp_dir, "puzzle.txt")
+            with open(path, "w", encoding="utf-8") as handle:
+                handle.write(PUZZLE_MULTILINE)
+            board = Board.from_file(path)
+            self.assertEqual(board.row(0), [5, 3, 0, 0, 7, 0, 0, 0, 0])
+
+    def test_missing_file_raises_os_error(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            path = os.path.join(tmp_dir, "does-not-exist.txt")
+            with self.assertRaises(OSError):
+                Board.from_file(path)
 
 
 class ConflictDetectionTests(unittest.TestCase):

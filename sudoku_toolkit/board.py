@@ -67,6 +67,12 @@ class Board:
             cells.append([_parse_cell(ch) for ch in compact])
         return cls(cells)
 
+    @classmethod
+    def from_file(cls, path) -> "Board":
+        """Read and parse a board from a file path, in any form from_text accepts."""
+        with open(path, "r", encoding="utf-8") as handle:
+            return cls.from_text(handle.read())
+
     def to_text(self) -> str:
         """Render as nine lines of nine characters, '.' for empty."""
         return "\n".join(

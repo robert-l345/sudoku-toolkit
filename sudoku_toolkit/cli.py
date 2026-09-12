@@ -10,19 +10,17 @@ from .generator import DIFFICULTIES, generate
 from .solver import solve
 
 
-def _read_input(path):
+def _read_board(path):
     # '-' matches the common convention for "read stdin instead of a file".
     if path is None or path == "-":
-        return sys.stdin.read()
-    with open(path, "r", encoding="utf-8") as handle:
-        return handle.read()
+        return Board.from_text(sys.stdin.read())
+    return Board.from_file(path)
 
 
 def cmd_check(args: argparse.Namespace) -> int:
-    text = _read_input(args.file)
     try:
-        board = Board.from_text(text)
-    except BoardError as exc:
+        board = _read_board(args.file)
+    except (BoardError, OSError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
 
@@ -40,10 +38,9 @@ def cmd_check(args: argparse.Namespace) -> int:
 
 
 def cmd_solve(args: argparse.Namespace) -> int:
-    text = _read_input(args.file)
     try:
-        board = Board.from_text(text)
-    except BoardError as exc:
+        board = _read_board(args.file)
+    except (BoardError, OSError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
 
