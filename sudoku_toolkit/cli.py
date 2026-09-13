@@ -65,6 +65,9 @@ def cmd_solve(args: argparse.Namespace) -> int:
 
 def cmd_generate(args: argparse.Namespace) -> int:
     board = generate(args.difficulty)
+    # A leading '#' comment, which from_text/from_file already skip, so a
+    # generated puzzle stays a valid board file even with this line kept in.
+    print(f"# {args.difficulty}, {board.clue_count()} clues")
     if args.oneline:
         print(board.to_line())
     else:

@@ -138,6 +138,14 @@ class ConflictDetectionTests(unittest.TestCase):
         board = Board.from_text(PUZZLE_MULTILINE)
         self.assertFalse(board.is_complete())
 
+    def test_clue_count_counts_filled_cells(self):
+        board = Board.from_text(PUZZLE_MULTILINE)
+        self.assertEqual(board.clue_count(), sum(1 for c in PUZZLE_SINGLE_LINE if c != "."))
+
+    def test_clue_count_of_solved_board_is_81(self):
+        board = Board.from_text(SOLUTION_MULTILINE)
+        self.assertEqual(board.clue_count(), 81)
+
     def test_detects_row_duplicate(self):
         rows = ["123456781"] + ["0" * 9] * 8
         board = Board.from_text("\n".join(rows))

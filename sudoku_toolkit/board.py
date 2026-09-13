@@ -126,6 +126,10 @@ class Board:
     def is_complete(self) -> bool:
         return all(value != EMPTY for row in self.cells for value in row)
 
+    def clue_count(self) -> int:
+        """Number of filled-in cells."""
+        return sum(1 for row in self.cells for value in row if value != EMPTY)
+
 
 def _parse_cell(ch: str) -> int:
     if ch in ".0 ":

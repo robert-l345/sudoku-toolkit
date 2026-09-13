@@ -88,7 +88,21 @@ class GenerateCommandTests(unittest.TestCase):
     def test_generates_oneline_puzzle(self):
         code, out, err = _run(["generate", "--oneline"])
         self.assertEqual(code, 0)
-        self.assertEqual(len(out.strip()), 81)
+        lines = out.strip().splitlines()
+        self.assertEqual(len(lines[-1]), 81)
+
+    def test_prints_a_clue_count_comment(self):
+        code, out, err = _run(["generate", "--oneline", "--difficulty", "hard"])
+        self.assertEqual(code, 0)
+        lines = out.strip().splitlines()
+        self.assertTrue(lines[0].startswith("#"))
+        self.assertIn("hard", lines[0])
+
+    def test_generated_output_is_a_readable_board(self):
+        code, out, err = _run(["generate", "--oneline"])
+        self.assertEqual(code, 0)
+        board = cli.Board.from_text(out)
+        self.assertTrue(board.is_valid())
 
 
 if __name__ == "__main__":
